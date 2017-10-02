@@ -107,10 +107,13 @@
             }).done(function (result) {
                 verifyPublishedItem(object_id);
                 elem = jQuery.parseJSON(result);
-                if(!elem){
+                if(!elem)
                     return false;
-                }
-                $("#dynatree").dynatree("getTree").reload();
+
+                var dynatrees = $("#dynatree").length;
+                if(dynatrees > 0)
+                    $("#dynatree").dynatree("getTree").reload();
+
                 $("#widget_" + property_id + "_" + object_id).hide();
                 $("#labels_" + property_id + "_" + object_id).fadeIn();
                 list_properties_single(object_id);
@@ -554,8 +557,6 @@
         }
     }
 
-
-
     // get value of the property
     function event_single_get_val(value) {
         if (value === '') {
@@ -654,7 +655,6 @@
             }*/
         });
     }
-
 
     //get the event on checbox
     function get_event_single_checkbox(e, object_id) {
@@ -836,7 +836,7 @@
                         socialdb_event_collection_id: $('#collection_id').val()}
                 }).done(function (result) {
                     elem_first = jQuery.parseJSON(result);
-                    show_classifications(object_id);
+                    // show_classifications(object_id);
                     list_properties_single(object_id);
                     showAlertGeneral(elem_first.title, elem_first.msg, elem_first.type);
 

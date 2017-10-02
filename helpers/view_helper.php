@@ -59,23 +59,24 @@ class ViewHelper {
     public function renderRepositoryLogo($_logo_id, $fallback_title) {
         $extraClass = "";
         $home = home_url();
+        $logo = _t("Logo");
         if(isset($_logo_id)) {
             $former_logo = get_the_post_thumbnail($_logo_id, 'thumbnail');
             if($former_logo) {
                 $extraClass = "repository-logo";
-                $_img_url = wp_get_attachment_url( get_post_thumbnail_id($_logo_id) );
-                $ret = "<img class='tainacan-repo-logo' src='$_img_url' />";
+                $logo_src = wp_get_attachment_url( get_post_thumbnail_id($_logo_id) );
             } else {
                 $logo_obj = get_post($_logo_id);
                 if(is_object($logo_obj) && $logo_obj->post_type === "attachment") {
-                    $crop_logo = $logo_obj->guid;
-                    $ret = "<img class='tainacan-repo-logo' src='$crop_logo' />";
+                    $logo_src = $logo_obj->guid;
                 } else {
                     $extraClass = "logo-tainacan";
-                    $default_logo = get_template_directory_uri() . '/libraries/images/Tainacan_pb.svg';
-                    $ret = "<img class='tainacan-repo-logo' src='$default_logo' />";
+                    $logo_src = get_template_directory_uri() . '/libraries/images/Tainacan_pb.svg';
                 }
             }
+
+            $ret = "<img class='tainacan-repo-logo' alt='$logo' title='$logo' src='$logo_src'/>";
+
         } else {
             $ret = empty($fallback_title) ? _t("Tainacan") : $fallback_title;
         }
@@ -197,6 +198,10 @@ class ViewHelper {
                     echo '><img src="' . get_template_directory_uri() . '/libraries/images/cor' . $i . '.png">  </label>';
                 };
                 ?>
+            </div>
+            <div class="form-group" style="margin-top: 15px;margin-bottom: 15px;">
+                <label for="property_term_required" style="margin-right: 10px;" ><?php _e('More options','tainacan'); ?> : </label>
+                <input type="checkbox" name="habilitate_more_options" id="habilitate_more_options" value="true">&nbsp;<?php _e('Habilitate more options','tainacan') ?>
             </div>
         </div>
     <?php
@@ -360,6 +365,11 @@ class ViewHelper {
             <button type="submit" id="conclude_config" class="btn btn-default btn-lg pull-right">
                 <?php _e('Conclude', 'tainacan'); ?>
             </button>
+
+            <button type="button" id="delete_collection" class="btn btn-danger pull-right"
+                    onclick="$('#delete_current_collection').click()">
+                <?php _e('Delete', 'tainacan'); ?>
+            </button>
         </div>
 
     <?php }
@@ -368,7 +378,8 @@ class ViewHelper {
         $onclick = 'backToMainPage();';
         $onclick = "backRoute($('#slug_collection').val());";
         echo "<h3 class='topo'> $title ";
-        self::buttonVoltar((__("Events", 'tainacan') == $title) ? $has_link : false);
+        // self::buttonVoltar((__("Events", 'tainacan') == $title) ? $has_link : false);
+        self::backButton();
         echo  "</h3><hr>";
     }
 
@@ -535,6 +546,12 @@ class ViewHelper {
             <button onclick="backRoute($('#slug_collection').val());" id="btn_back_collection" class="btn btn-default pull-right"><?php _e('Back to collection','tainacan') ?></button>
             <?php
         }
+    }
+
+    public static function backButton() {
+        ?>
+        <button onclick='window.location = $("#socialdb_permalink_collection").val()' class='btn btn-default pull-right'><?php echo  _t("Back") ?></button>
+        <?php
     }
     
     /**

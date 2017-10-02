@@ -19,7 +19,7 @@ include_once ('js/object_property_form_js.php'); ?>
             <label for="event_add_property_object_category_id"><?php _e('Property object relationship','tainacan'); ?></label>
             <div id="property_category_dynatree" style="height: 300px;overflow-y: scroll;" >
                                     </div>
-             <input required="required" type="hidden"  id="property_object_category_id"  name="property_object_category_id" value="<?php //echo $category->term_id; ?>" >
+             <input required="required" type="hidden"  id="property_object_category_id"  name="socialdb_event_property_object_create_category_id" value="<?php //echo $category->term_id; ?>" >
     </div>
     <!--div class="form-group">
         <label for="event_add_property_object_required"><?php _e('Property object facet','tainacan'); ?></label>
@@ -43,10 +43,17 @@ include_once ('js/object_property_form_js.php'); ?>
     </div>
     <?php do_action('form_modify_property_object') ?>
     <input type="hidden" id="single_event_add_property_object_collection_id" name="socialdb_event_collection_id" value="<?php echo $collection_id; ?>">
+    <input type="hidden"  name="socialdb_event_property_object_create_cardinality" value="n">
     <input type="hidden" id="single_event_add_property_object_id" name="property_object_id" value="<?php echo $object_id; ?>">
     <input type="hidden" id="single_event_add_property_object_create_time" name="socialdb_event_create_date" value="<?php echo mktime(); ?>">
     <input type="hidden" id="single_event_add_property_object_user_id" name="socialdb_event_user_id" value="<?php echo get_current_user_id(); ?>">
     <input type="hidden" id="single_operation_property_object" name="operation" value="add_event_property_object_create">
-    <button type="submit" id="submit" class="btn btn-default"><?php _e('Submit','tainacan'); ?></button>
-    <button type="button" onclick="back_button_single('<?php echo $object_id; ?>')" class="btn btn-default" id="clear_categories"><?php _e('Clear','tainacan'); ?></button>
+    <button type="submit" id="submit" class="btn btn-primary pull-right" style="margin-left: 5px;">
+        <?php _e('Submit','tainacan'); ?>
+    </button>
+
+    <button type="button" onclick="back_button_single('<?php echo $object_id; ?>')" class="btn btn-default pull-right" id="clear_categories">
+        <?php _e('Cancel','tainacan'); ?>
+    </button>
+    <br>
 </form>
